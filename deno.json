@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "check": "deno fmt --check . && bash -n setup-agent-skills.sh && bash -n test.sh",
+    "test": "bash test.sh"
+  }
+}

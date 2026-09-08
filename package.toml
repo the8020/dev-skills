@@ -1,0 +1,4 @@
+schema = 1
+description = "80|20 development skills for Codex and Claude"
+documentation_url = "https://github.com/the8020/dev-skills"
+license = "Apache-2.0"

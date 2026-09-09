@@ -100,6 +100,16 @@ Default section order:
 5. Run existing verification when relevant
 6. Report any docs intentionally left unchanged and why
 
+## User Preferences
+
+When the user requests a durable behavior change, record it here or in the
+relevant child AGENTS.md
+
+- Keep `/workspace/AGENTS.md` and `/workspace/CLAUDE.md` sourced from this
+  package. Explain the existing gVisor sandbox, Debian/root tooling, storage,
+  activation before live testing, and the host system URL here, not in kernel
+  instruction payloads.
+
 ## Child DOX Index
 
 No child DOX documents. This package root owns all shipped skills and discovery.
@@ -185,9 +195,15 @@ across repository boundaries.
   and jobs, services, and UUI guidance; exact APIs remain in their owning
   packages.
 - `workspace.md` supplies the sandbox's read-only `/workspace/AGENTS.md` and
-  `/workspace/CLAUDE.md`; it is an installation payload, not source-tree DOX.
+  `/workspace/CLAUDE.md`; it owns immediate environment orientation and is an
+  installation payload, not source-tree DOX. Both mounts use the same file.
 - `setup-agent-skills.sh` owns merging built-in and developer skills into native
   user discovery directories. The kernel owns mount boundaries and startup.
+- `the8020-dev-uui-control` owns browser-independent UUI CLI operation and its
+  Deno script. The thin platform `uui` helper delegates here. Native allowances
+  and CLI session state live under `~/.the8020` with private file permissions;
+  command results never print credentials. Revisions/claim tickets stay
+  internal.
 
 ## Local Contracts
 
@@ -215,6 +231,14 @@ across repository boundaries.
 - Keep examples grounded in current source, including activation's current
   sandbox restart limitation. Never imply plain sandbox Deno has a Worker
   bridge. Do not duplicate implementations, vendor manuals, or credentials.
+- `workspace.md` explains the sandbox's actual OS/tooling, root confinement,
+  persistent/temporary paths, private edits, activation, and live verification.
+  Use the kernel-supplied `DEVELOPMENT_SYSTEM_URL` for the host node's main HTTP
+  listener; distinguish it from the private activation endpoint and external
+  browser URL. Document its start-time lifetime and discovery on older kernels.
+- Workspace instruction file mounts refresh on sandbox start; replacing the
+  activated file can leave running sandboxes reading their previous binding.
+  Published skills remain visible through the built-in directory mount.
 
 ## Work Guidance
 
@@ -230,6 +254,11 @@ across repository boundaries.
   guidance share the types skill instead of duplicating its contract.
 
 ## Verification
+
+- Check the UUI-control script with `deno check`; UUI's
+  `agent_native_fixture.ts` runs it inside a real sandbox and hands its live
+  execution to Chromium. Its session tests cover command validation and fallback
+  bindings. No duplicate UI protocol implementation belongs in this package.
 
 - `deno task check` checks formatting and shell syntax; `deno task test` checks
   discovery, custom precedence, concurrent refresh, and preservation of native

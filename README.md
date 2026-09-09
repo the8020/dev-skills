@@ -4,6 +4,12 @@ The `the8020/dev-skills` package supplies development guidance for Codex and
 Claude Code. It includes the `8020-dev` router and focused skills for shared
 types, databases, programs and jobs, services, and UUI.
 
+[`workspace.md`](workspace.md) is the single source mounted as both
+`/workspace/AGENTS.md` and `/workspace/CLAUDE.md`. It explains the gVisor/Debian
+environment, storage, activation before live testing, and the host URL supplied
+in `DEVELOPMENT_SYSTEM_URL`. The kernel owns the mounts and environment values;
+this package owns the instructions.
+
 ## Use in a development sandbox
 
 Shipped skills are mounted read-only at `/workspace/skills/builtin`. To edit

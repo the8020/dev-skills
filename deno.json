@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "check": "deno fmt --check . && bash -n setup-agent-skills.sh && bash -n test.sh",
+    "check": "deno fmt --check . && bash -n setup-agent-skills.sh && bash -n test.sh && deno lint the8020-dev-uui-control/scripts/uui.ts && deno check the8020-dev-uui-control/scripts/uui.ts",
     "test": "bash test.sh"
   }
 }

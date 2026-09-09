@@ -46,13 +46,14 @@ owning package contract and current source give the exact API and checks.
 Resolve these skill names through the agent catalog so custom overrides apply.
 The links below point to the shipped versions.
 
-| Work                                                                               | Read                                                     |
-| ---------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| Shared Zod fields, structures, labels/help, value representation                   | [the8020-dev-types](../the8020-dev-types/SKILL.md)       |
-| Tables, Kysely, SQL results, schema activation                                     | [the8020-dev-db](../the8020-dev-db/SKILL.md)             |
-| Programs, positional inputs, interactive/background invocation, jobs and schedules | [the8020-dev-programs](../the8020-dev-programs/SKILL.md) |
-| HTTP/WebSocket services, access policy, runtime testing and reload                 | [the8020-dev-services](../the8020-dev-services/SKILL.md) |
-| UUI forms, lists, field help, navigation, browser assets                           | [the8020-dev-uui](../the8020-dev-uui/SKILL.md)           |
+| Work                                                                               | Read                                                           |
+| ---------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| Shared Zod fields, structures, labels/help, value representation                   | [the8020-dev-types](../the8020-dev-types/SKILL.md)             |
+| Tables, Kysely, SQL results, schema activation                                     | [the8020-dev-db](../the8020-dev-db/SKILL.md)                   |
+| Programs, positional inputs, interactive/background invocation, jobs and schedules | [the8020-dev-programs](../the8020-dev-programs/SKILL.md)       |
+| HTTP/WebSocket services, access policy, runtime testing and reload                 | [the8020-dev-services](../the8020-dev-services/SKILL.md)       |
+| UUI forms, lists, field help, navigation, browser assets                           | [the8020-dev-uui](../the8020-dev-uui/SKILL.md)                 |
+| Operate or inspect live UUI screens without a browser                              | [the8020-dev-uui-control](../the8020-dev-uui-control/SKILL.md) |
 
 For authentication, package administration, or another domain, start with its
 owning package's `AGENTS.md`. Load the types skill when shared definitions
@@ -83,10 +84,11 @@ change, then the relevant consumer skill; do not load unrelated domain skills.
    validates/synchronizes schema and runs package hooks, then publishes shared
    sources. It does not push remotes. A plain Git commit is not activation.
    Publication affects the shared running system; follow the user's task scope.
-4. Check the exit status and JSON result. Conflicts return nonzero (409 maps to
-   exit 3); shared code has not necessarily changed. Inspect returned package
-   errors and conflict paths, resolve using the owning workflow, preview, and
-   retry. Never reset/discard private work or force Git history to make it pass.
+4. Check the exit status and result; add `--json` for machine-readable output.
+   Conflicts return nonzero (409 maps to exit 3); shared code has not
+   necessarily changed. Inspect returned package errors and conflict paths,
+   resolve using the owning workflow, preview, and retry. Never reset/discard
+   private work or force Git history to make it pass.
 
 **Current activation limitation:** successful publication can return
 `overlay_reset_pending: true`, followed by killing and recreating this sandbox.
@@ -98,15 +100,14 @@ be lost on abrupt runtime loss; do not assume background autosave.
 
 ## Verify the live result
 
-Development uses the kernel's host network: `127.0.0.1` reaches the kernel
-process's namespace (the kernel container if Docker is used). The main HTTP port
-is `network.main_port`, default 8080; use the actual configured value from node
-administration or the supplied instance URL. The activation endpoint in
+Use `DEVELOPMENT_SYSTEM_URL` for the host node's HTTP base URL from this
+sandbox. `/workspace/AGENTS.md` explains its host-network address, start-time
+lifetime, and discovery on older kernels. The activation endpoint in
 `DEVELOPMENT_ACTIVATION_ENDPOINT` is a separate private control listener.
 
 ```sh
-curl --fail --show-error --max-time 10 http://127.0.0.1:8080/health
-curl --fail --show-error --max-time 30 http://127.0.0.1:8080/the8020/demo/static/
+curl --fail --show-error --max-time 10 "${DEVELOPMENT_SYSTEM_URL:?}/health"
+curl --fail --show-error --max-time 30 "${DEVELOPMENT_SYSTEM_URL:?}/the8020/demo/static/"
 ```
 
 Service URLs are `/<namespace>/<package>/<service>/<relative-route>`. The demo

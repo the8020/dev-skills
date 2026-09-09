@@ -1,4 +1,95 @@
-# Development starts with 8020-dev
+# You are in an 80|20 development sandbox
+
+You are already running inside a gVisor (`runsc`) sandbox managed by the 80|20
+platform. This is the developer's tool environment; the host kernel runs the
+activated application in separate service and job Workers.
+
+## Operating environment
+
+- The standard image is Debian GNU/Linux with Bash, Deno, Git, curl, and
+  APT/dpkg. Check `/etc/os-release` and tool versions for this sandbox's exact
+  image. You run as Linux `root` (UID 0), with home `/root`; use `apt-get`
+  directly when a required tool is missing. Root is confined by gVisor and the
+  supplied mounts. Use the existing sandbox for development; nested Docker,
+  systemd, and host kernel administration are not prerequisites.
+- `/root` and installed system tools persist across ordinary sandbox restarts
+  and activation. `/tmp` and `/run` are temporary. Source reset discards private
+  package edits; factory reset also removes the developer's home, tools, and
+  custom skills. Use these resets only when discarding that state is intended.
+- `/workspace/packages/<namespace>/<package>/` contains the editable package
+  repositories. Each package is an independent Git root; `/workspace` and the
+  packages tree have no master repository. Package edits are private until
+  activation publishes them to the shared 80|20 system.
+- `/workspace/scripts`, `/workspace/skills/builtin`, `/workspace/AGENTS.md`, and
+  `/workspace/CLAUDE.md` are read-only platform mounts. The activated
+  `the8020/dev-skills` package owns this guide and the built-in skills. Edit
+  `/workspace/packages/the8020/dev-skills/workspace.md` to change both mounted
+  instruction files, then activate that package. Mounted instruction files
+  refresh on the sandbox's next start; a running sandbox can retain the previous
+  file binding. The kernel supplies mounts, not the guide's contents.
+- Plain shell `deno run` processes have no Worker bridge, execution principal,
+  or platform database capability. Run local package checks in the shell; test
+  platform behavior through activated programs and services on the host system.
+
+## Host 80|20 system URL
+
+`DEVELOPMENT_SYSTEM_URL` is the host node's HTTP base URL as reachable from this
+sandbox. Inspect just this value:
+
+```sh
+printf '%s\n' "$DEVELOPMENT_SYSTEM_URL"
+curl --fail --show-error --max-time 10 "${DEVELOPMENT_SYSTEM_URL:?}/health"
+```
+
+Development uses the kernel's host network, so `127.0.0.1` reaches the kernel's
+network namespace (its container when deployed with Docker). The URL uses the
+configured `network.main_port`; `http://127.0.0.1:8080` is only the default and
+Docker deployments may use another internal port. Use the supplied URL rather
+than guessing from a published host port. For a browser outside this network,
+use the instance's public URL supplied by the user or deployment.
+
+The environment value is captured at sandbox start. If it is absent on an older
+kernel or an administrator changes the main port while this sandbox is running,
+obtain the current address from node administration or the supplied instance
+URL. `DEVELOPMENT_ACTIVATION_ENDPOINT` is a separate private control listener;
+its sandbox token also permits a native exchange for your own users allowance.
+Use `uui` and the `the8020-dev-uui-control` skill to operate authenticated
+screens without a browser or password. Its local allowance stays in `~/.the8020`
+and is revocable from Sign-ins. It cannot authenticate public HTTP requests.
+Keep tokens private; avoid dumping the entire environment for discovery.
+
+The system UI is at the base URL's `/`; services use
+`/<namespace>/<package>/<service>/<relative-route>`. `/health` proves kernel
+readiness only. Verify the affected service or program, using application login
+credentials where required.
+
+## Activate before testing the running application
+
+Run the package's local checks, then preview and activate the affected package:
+
+```sh
+activate --preview
+activate --package the8020/demo --message "Describe the change"
+```
+
+Replace the example package ID; repeat `--package` for multiple packages.
+Omitting it selects all changed packages. Activation commits and publishes
+selected changes, synchronizes schema, and runs package hooks; it affects the
+shared running system and does not push Git remotes. Saving files or making a
+plain Git commit does not activate them. Check the command's exit status and
+result (`--json` gives machine-readable output); resolve reported conflicts
+before testing the live result.
+
+The current activation implementation can recreate this sandbox after success
+(`overlay_reset_pending: true`). Save a test handoff under `/root` before
+activation and reconnect afterward if needed; do not rely on
+`activate && run-tests` surviving. Uncheckpointed source edits can also be lost
+on abrupt runtime loss. The
+[8020-dev router](/workspace/skills/builtin/8020-dev/SKILL.md) owns the detailed
+activation and verification workflow, including fresh service sessions and
+browser reloads to exercise updated code.
+
+## Development starts with 8020-dev
 
 For all development here, use `8020-dev` from your agent's merged skill catalog
 (including a custom override, if present), then the relevant domain skills. The
@@ -6,12 +97,6 @@ For all development here, use `8020-dev` from your agent's merged skill catalog
 independent package repositories, private edits, activation, and live
 verification. Read the target package's AGENTS.md and its applicable child
 contracts before editing; complete their DOX pass and checks.
-
-This workspace contains packages, not a master Git repository. Make changes in
-`/workspace/packages/<namespace>/<package>`. The activated `the8020/dev-skills`
-package supplies this guide and the read-only `/workspace/skills/builtin` tree.
-Edit shipped skills in `/workspace/packages/the8020/dev-skills` and activate
-that package normally. The same guide is exposed as AGENTS.md and CLAUDE.md.
 
 Add personal skills at `/workspace/skills/custom/<name>/SKILL.md` with matching
 `name` and `description` frontmatter. That writable directory persists in your
@@ -124,10 +209,15 @@ Default section order:
 
 ## User Preferences
 
+When the user requests a durable behavior change, record it here or in the
+relevant child AGENTS.md
+
 - Always use the 8020-dev router for development and the applicable domain
   skills.
 - Keep built-in skills and workspace instructions read-only. Developer skills
   are writable and private in `/workspace/skills/custom`.
+- Keep sandbox orientation and activation guidance in `the8020/dev-skills`,
+  grounded in the actual image, mounts, and supplied host system URL.
 
 ## Child DOX Index
 

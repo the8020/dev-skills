@@ -71,6 +71,14 @@ execution mechanism, not a second scheduler or history store.
   messages. Read bounded logs on the exact execution's node using its IDs and
   saved log position. Do not copy logs into job rows or scan every Worker.
 
+Command, hook, and event declarations all require a full
+`namespace/package/program` ID in `program`, even for a program in the same
+package. For administrative commands, use flat `cbus/commands/*.toml` with an
+explicit public `command` name and a `program` such as `the8020/users/list`. The
+target may belong to another package; the declaring package still owns the
+command. Copy required help and metadata from an existing command declaration.
+Programs receive raw string arguments and run as `system`.
+
 Flat `events/*.toml` declarations name `event`, `description`, and a full
 `program` ID; event emission does not await listener completion. Flat
 `hooks/*.toml` declarations name `hook`, `description`, and `program`, with

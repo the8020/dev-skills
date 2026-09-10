@@ -228,9 +228,10 @@ across repository boundaries.
 - Always use `8020-dev`, then only the relevant domain skills. Use portable
   `name` and `description` frontmatter with the folder matching the name. Keep
   `8020-dev` stable and use `the8020-dev-<domain>` for shipped focused skills.
-- Keep examples grounded in current source, including activation's current
-  sandbox restart limitation. Never imply plain sandbox Deno has a Worker
-  bridge. Do not duplicate implementations, vendor manuals, or credentials.
+- Keep examples grounded in current source. Activation preserves running
+  processes; private source persists without checkpoint timers. Never imply
+  plain sandbox Deno has a Worker bridge. Do not duplicate implementations,
+  vendor manuals, or credentials.
 - `workspace.md` explains the sandbox's actual OS/tooling, root confinement,
   persistent/temporary paths, private edits, activation, and live verification.
   Use the kernel-supplied `DEVELOPMENT_SYSTEM_URL` for the host node's main HTTP

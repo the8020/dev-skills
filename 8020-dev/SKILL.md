@@ -90,13 +90,10 @@ change, then the relevant consumer skill; do not load unrelated domain skills.
    resolve using the owning workflow, preview, and retry. Never reset/discard
    private work or force Git history to make it pass.
 
-**Current activation limitation:** successful publication can return
-`overlay_reset_pending: true`, followed by killing and recreating this sandbox.
-The agent and terminals stop; `activate && run-tests` is not a reliable loop.
-Persist a short test handoff under `/root` before activation and reconnect to
-verify afterward. Do not promise process survival until the deployed activation
-implementation has adopted that contract. Uncheckpointed source edits can also
-be lost on abrupt runtime loss; do not assume background autosave.
+Activation preserves the sandbox, running agents, and named terminals. Private
+source persists across sandbox loss without a checkpoint timer. Untouched paths
+follow shared updates; private edits keep their originals for Git conflict
+resolution. Activation publishes its captured changes and preserves later edits.
 
 ## Verify the live result
 

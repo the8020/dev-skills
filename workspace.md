@@ -80,11 +80,10 @@ plain Git commit does not activate them. Check the command's exit status and
 result (`--json` gives machine-readable output); resolve reported conflicts
 before testing the live result.
 
-The current activation implementation can recreate this sandbox after success
-(`overlay_reset_pending: true`). Save a test handoff under `/root` before
-activation and reconnect afterward if needed; do not rely on
-`activate && run-tests` surviving. Uncheckpointed source edits can also be lost
-on abrupt runtime loss. The
+Activation preserves this sandbox, running agents, and named terminals. Private
+source survives sandbox loss without checkpointing. Untouched paths follow
+shared updates; private edits retain their originals for Git conflict
+resolution, and edits made after an activation capture remain private. The
 [8020-dev router](/workspace/skills/builtin/8020-dev/SKILL.md) owns the detailed
 activation and verification workflow, including fresh service sessions and
 browser reloads to exercise updated code.

@@ -20,8 +20,9 @@ owning package contract and current source give the exact API and checks.
   example before creating one. `deno.json` owns runtime imports and tasks;
   `deno.local.json` resolves sibling sources for local checks.
 - Cross-package imports use `/p/<namespace>/<package>/<file>.ts`. The running
-  Worker resolves `/p/` to the activated package tree. `@the8020/kernel`,
-  `@the8020/context`, and `@the8020/http` are generic runtime APIs.
+  Worker resolves `/p/` to the activated package tree. `@the8020/kernel` and
+  `@the8020/context` are generic runtime APIs. HTTP helpers live in
+  `/p/the8020/services/http.ts`; shared Zod and Kysely live in `the8020/db`.
 - The Go kernel owns node authority, routing, Workers, and sandbox lifetimes.
   Deno packages own application behavior, schemas, services, jobs, and screens.
   Reuse existing package capabilities; fix a shared defect at its owner.

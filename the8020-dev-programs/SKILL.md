@@ -14,7 +14,10 @@ the owning package's program DOX. For scheduled or durable work, read
 - A program lives at `programs/<name>/` in its owning package and has the
   canonical ID `<namespace>/<package>/<name>`. `program.toml` declares
   `schema = 1`, a description, an entrypoint such as `program.ts`, and its
-  discovery/UI flags. The entrypoint default-exports a callable function.
+  discovery/UI flags. `the8020/packages/programs.ts` owns this application
+  metadata and catalog enrichment; the kernel reads only `entrypoint`, checks
+  executable identity/containment/readiness, and dispatches. The entrypoint
+  default-exports a callable function.
 - Inputs are positional: an argument array is spread into that function.
   Validate untrusted inputs with the owner's ordinary Zod schemas, using
   [the8020-dev-types](../the8020-dev-types/SKILL.md) for reusable fields and
@@ -77,7 +80,9 @@ package. For administrative commands, use flat `cbus/commands/*.toml` with an
 explicit public `command` name and a `program` such as `the8020/users/list`. The
 target may belong to another package; the declaring package still owns the
 command. Copy required help and metadata from an existing command declaration.
-Programs receive raw string arguments and run as `system`.
+Programs receive raw string arguments and run as `system`. Shared flag and
+required-argument helpers come from `/p/the8020/packages/commands.ts`;
+structured `AdminCommandError` remains in `@the8020/kernel`.
 
 Flat `events/*.toml` declarations name `event`, `description`, and a full
 `program` ID; event emission does not await listener completion. Flat

@@ -4,6 +4,14 @@ You are already running inside a gVisor (`runsc`) sandbox managed by the 80|20
 platform. This is the developer's tool environment; the host kernel runs the
 activated application in separate service and job Workers.
 
+## 80|20 scope discipline
+
+- Build only what the request and established contracts require. Before adding a
+  mechanism, identify that need and why existing owners or standard tools cannot
+  meet it. Do not invent stronger guarantees for hypothetical cases. Remove
+  unsupported additions at closeout; agent-written tests and DOX do not
+  authorize them. Preserve required correctness, security, and data integrity.
+
 ## Operating environment
 
 - The standard image is Debian GNU/Linux with Bash, Deno, Git, curl, and

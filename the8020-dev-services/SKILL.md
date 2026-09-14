@@ -13,11 +13,12 @@ current sandbox-reset limitation. Read the owning package's service DOX and
   that package. Start from `/workspace/packages/the8020/demo/services/static/`
   for HTTP or `demo/services/database/` for a database-backed handler. Read the
   actual declaration before copying its access and lifecycle settings.
-- Default-export the service created by `defineService` from `@the8020/http`.
-  Register relative routes on that service; the kernel strips the canonical
-  `/<namespace>/<package>/<service>` prefix. Reuse ordinary Zod request/response
-  schemas and the existing HTTP/OpenAPI helpers. Do not start a separate
-  `Deno.serve` listener for an ordinary platform service.
+- Default-export the service created by `defineService` from
+  `/p/the8020/services/http.ts`. Register relative routes on that service; the
+  kernel strips the canonical `/<namespace>/<package>/<service>` prefix. Reuse
+  ordinary Zod request/response schemas and the existing HTTP/OpenAPI helpers.
+  Do not start a separate `Deno.serve` listener for an ordinary platform
+  service.
 - Use `@the8020/kernel` for platform capabilities and `@the8020/context` for
   immutable trusted invocation identity. Never trust caller-supplied internal
   headers or invent a parallel kernel client from sandbox tokens.
@@ -42,3 +43,7 @@ and use the administration UI/command bus when needed.
 An authenticated browser can test the ordinary login/shell flow. Keep its
 cookies private. A working health endpoint does not prove that your service is
 enabled, its handler loaded, its authentication succeeded, or new code ran.
+
+- `services.openapi <service-id>` explicitly imports the selected service in an
+  ordinary program Worker. Keep module initialization suitable for inspection;
+  documentation errors do not prevent native startup or request handling.

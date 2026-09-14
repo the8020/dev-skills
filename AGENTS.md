@@ -118,14 +118,18 @@ No child DOX documents. This package root owns all shipped skills and discovery.
 
 ## 1. Don't do 20|80.
 
-80|20 supports a ton of features with very little effort. Don't spend a ton of
-effort on a very little feature.
+Implement the smallest complete solution for the requested behavior and existing
+contracts. Do not invent stronger guarantees, extra features, or machinery for
+hypothetical future needs or failures. Preserve required correctness, security,
+and data integrity; report limitations outside the contract instead of silently
+expanding scope.
 
 ## 2. Use before inventing.
 
-Combine and reuse existing concepts first. When a new concept is necessary,
-design it to serve more than the immediate use case and cooperate well with
-existing concepts.
+Reuse the existing owner, standard library, and platform mechanisms before
+adding concepts. Add an abstraction or subsystem only when a concrete current
+requirement cannot be met simply with what already exists. Solve that
+requirement without speculative extensibility or generalization.
 
 ## 3. Respect boundaries.
 
@@ -158,11 +162,11 @@ small.
 
 ## 7. Give state and lifetimes clear owners.
 
-Keep durable shared facts in the database and make node-local indexes and caches
-explicitly derived. Distinguish connections, logical executions, Workers, and
-sandboxes, with clear rules for completion, cancellation, and cleanup.
-Reconnection or retry must respect the original execution’s identity and
-outcome.
+Persist only state required by current contracts, at its owning layer; do not
+duplicate authoritative data to invent stronger guarantees. Keep node-local
+indexes and caches explicitly derived, and distinguish connections, executions,
+Workers, and sandboxes with clear completion and cleanup rules. Reconnection or
+retry must respect the original execution's identity and outcome.
 
 ## 8. Bound work and resource use.
 
@@ -175,8 +179,9 @@ network operations.
 
 Read the applicable contracts and trace the full path before changing code.
 Repair shared defects at their source, then verify both the owning layer and the
-affected application flow. Keep documentation aligned with deliberate changes
-across repository boundaries.
+affected application flow. Before closeout, remove additions without a current
+requirement and document only accepted behavior; agent-written tests and DOX do
+not authorize extra requirements.
 
 # Development skills
 
@@ -232,6 +237,9 @@ across repository boundaries.
   processes; private source persists without checkpoint timers. Never imply
   plain sandbox Deno has a Worker bridge. Do not duplicate implementations,
   vendor manuals, or credentials.
+- Keep the nine agent principles synchronized with `zen/AGENTS.md` and the
+  source-workspace root. Carry their scope discipline into `workspace.md` so
+  sandbox agents receive it before selecting a package or skill.
 - `workspace.md` explains the sandbox's actual OS/tooling, root confinement,
   persistent/temporary paths, private edits, activation, and live verification.
   Use the kernel-supplied `DEVELOPMENT_SYSTEM_URL` for the host node's main HTTP

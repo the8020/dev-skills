@@ -39,6 +39,15 @@ For concrete examples, read `/workspace/packages/the8020/demo/src/fields.ts`
 `/workspace/packages/the8020/packages/types/program.ts` (shared reference,
 searchable help, and navigation).
 
+## UI Rules
+
+- Do not add explanatory helper copy that restates what the control already
+  implies (e.g. "optional", "works without selection", "failure falls back to
+  X"). Prefer clear labels and option text; surface status in results when
+  needed, not as instructional paragraphs under every field.
+- Keep UI copy concise. Avoid tutorial-style descriptions unless the user
+  explicitly asks for onboarding help.
+
 ## Connect the consumers
 
 | Concern                                                                | Owner                                                            |

@@ -209,6 +209,9 @@ not authorize extra requirements.
   and CLI session state live under `~/.the8020` with private file permissions;
   command results never print credentials. Revisions/claim tickets stay
   internal.
+- `the8020-dev-db/scripts/sql.ts` owns the sandbox SQL CLI. The thin platform
+  `sql` helper delegates here; native authentication, SQL execution, and result
+  limits remain kernel-owned.
 
 ## Local Contracts
 
@@ -248,6 +251,11 @@ not authorize extra requirements.
 - Workspace instruction file mounts refresh on sandbox start; replacing the
   activated file can leave running sandboxes reading their previous binding.
   Published skills remain visible through the built-in directory mount.
+- SQL uses the existing sandbox endpoint, owner, and bearer token. Send scalar
+  parameters as an unparsed JSON-array string and print native JSON unchanged to
+  preserve integer precision. Requests have a bounded deadline, never retry, and
+  access the shared live database independently of activation. This grants no
+  general shell Worker bridge and introduces no credentials or session store.
 
 ## Work Guidance
 
@@ -262,6 +270,15 @@ not authorize extra requirements.
 - Shared fields and structures belong to their semantic owner; database and UUI
   guidance share the types skill instead of duplicating its contract.
 
+### UI Rules
+
+- Do not add explanatory helper copy that restates what the control already
+  implies (e.g. "optional", "works without selection", "failure falls back to
+  X"). Prefer clear labels and option text; surface status in results when
+  needed, not as instructional paragraphs under every field.
+- Keep UI copy concise. Avoid tutorial-style descriptions unless the user
+  explicitly asks for onboarding help.
+
 ## Verification
 
 - Check the UUI-control script with `deno check`; UUI's
@@ -269,10 +286,12 @@ not authorize extra requirements.
   execution to Chromium. Its session tests cover command validation and fallback
   bindings. No duplicate UI protocol implementation belongs in this package.
 
-- `deno task check` checks formatting and shell syntax; `deno task test` checks
-  discovery, custom precedence, concurrent refresh, and preservation of native
-  user data with isolated homes, without agent installation, login, or model
-  requests.
+- `deno task check` checks formatting, shell syntax, and both CLI scripts;
+  native SQL adapter tests in the kernel execute the shipped SQL script against
+  a real disposable SQLite database, including writes, bounds, and failures.
+  `deno task test` checks discovery, custom precedence, concurrent refresh, and
+  preservation of native user data with isolated homes, without agent
+  installation, login, or model requests.
 - Kernel development tests verify actual read-only and persistent mounts,
   publication, per-user isolation, and lifecycle persistence.
 - Validate authored skills with skill-creator's `quick_validate.py` when

@@ -40,7 +40,8 @@ owning package contract and current source give the exact API and checks.
 - A shell `deno run` is a developer process, not a platform Worker. It has no
   kernel bridge, execution principal, or database capability. Use package checks
   with their supplied mocks, or exercise real behavior through a service or
-  ordinary program running on the kernel.
+  ordinary program running on the kernel. For direct SQL, use the authenticated
+  `sql` helper described in [the8020-dev-db](../the8020-dev-db/SKILL.md).
 
 ## Route to the needed skill
 
@@ -50,10 +51,10 @@ The links below point to the shipped versions.
 | Work                                                                               | Read                                                           |
 | ---------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | Shared Zod fields, structures, labels/help, value representation                   | [the8020-dev-types](../the8020-dev-types/SKILL.md)             |
-| Tables, Kysely, SQL results, schema activation                                     | [the8020-dev-db](../the8020-dev-db/SKILL.md)                   |
+| Tables, Kysely, sandbox SQL commands, SQL results, schema activation               | [the8020-dev-db](../the8020-dev-db/SKILL.md)                   |
 | Programs, positional inputs, interactive/background invocation, jobs and schedules | [the8020-dev-programs](../the8020-dev-programs/SKILL.md)       |
 | HTTP/WebSocket services, access policy, runtime testing and reload                 | [the8020-dev-services](../the8020-dev-services/SKILL.md)       |
-| UUI forms, lists, field help, navigation, browser assets                           | [the8020-dev-uui](../the8020-dev-uui/SKILL.md)                 |
+| UUI forms, lists, UI copy, field help, navigation, browser assets                  | [the8020-dev-uui](../the8020-dev-uui/SKILL.md)                 |
 | Operate or inspect live UUI screens without a browser                              | [the8020-dev-uui-control](../the8020-dev-uui-control/SKILL.md) |
 
 For authentication, package administration, or another domain, start with its

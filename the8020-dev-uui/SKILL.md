@@ -35,6 +35,17 @@ Read the affected package's program DOX and
   after tracing the screen-to-browser flow. Preserve accessibility and existing
   keyboard behavior rather than adding screen-specific workarounds.
 
+## UI Rules
+
+- Do not add explanatory helper copy that restates what the control already
+  implies (e.g. "optional", "works without selection", "failure falls back to
+  X"). Prefer clear labels and option text; surface status in results when
+  needed, not as instructional paragraphs under every field.
+- Keep UI copy concise. Avoid tutorial-style descriptions unless the user
+  explicitly asks for onboarding help.
+
+## Verify
+
 Run the existing package checks and focused browser harness. After activation,
 open the actual program through the authenticated shell at
 `/the8020/uui/shell/`, start a new logical UUI session for updated Worker code,

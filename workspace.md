@@ -12,6 +12,15 @@ activated application in separate service and job Workers.
   unsupported additions at closeout; agent-written tests and DOX do not
   authorize them. Preserve required correctness, security, and data integrity.
 
+## UI Rules
+
+- Do not add explanatory helper copy that restates what the control already
+  implies (e.g. "optional", "works without selection", "failure falls back to
+  X"). Prefer clear labels and option text; surface status in results when
+  needed, not as instructional paragraphs under every field.
+- Keep UI copy concise. Avoid tutorial-style descriptions unless the user
+  explicitly asks for onboarding help.
+
 ## Operating environment
 
 - The standard image is Debian GNU/Linux with Bash, Deno, Git, curl, and
@@ -38,6 +47,12 @@ activated application in separate service and job Workers.
 - Plain shell `deno run` processes have no Worker bridge, execution principal,
   or platform database capability. Run local package checks in the shell; test
   platform behavior through activated programs and services on the host system.
+- Use `sql 'SELECT 1 AS value'` for JSON SQL results and `--parameters` for
+  bound values. The
+  [database skill](/workspace/skills/builtin/the8020-dev-db/SKILL.md) owns
+  usage. The helper uses existing sandbox authentication and accesses the shared
+  live database; writes take effect immediately, independently of activation.
+  `--execute` selects non-row-returning SQL, not write permission.
 
 ## Host 80|20 system URL
 

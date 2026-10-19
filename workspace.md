@@ -47,6 +47,10 @@ activated application in separate service and job Workers.
 - Plain shell `deno run` processes have no Worker bridge, execution principal,
   or platform database capability. Run local package checks in the shell; test
   platform behavior through activated programs and services on the host system.
+- The runtime SDK is mounted read-only at `/opt/runtime`. The read-only
+  `/workspace/deno.json` includes all package configs in one Deno workspace and
+  supplies `@the8020/*` and `/p/` imports. Run `deno task check` and other
+  package tasks normally; package configs retain their own dependencies.
 - Use `sql 'SELECT 1 AS value'` for JSON SQL results and `--parameters` for
   bound values. The
   [database skill](/workspace/skills/builtin/the8020-dev-db/SKILL.md) owns

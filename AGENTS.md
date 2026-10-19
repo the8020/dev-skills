@@ -240,6 +240,10 @@ not authorize extra requirements.
   processes; private source persists without checkpoint timers. Never imply
   plain sandbox Deno has a Worker bridge. Do not duplicate implementations,
   vendor manuals, or credentials.
+- Sandbox Deno checks use the read-only runtime SDK and shared workspace config.
+  Agents run ordinary package tasks; package configs own dependencies and tasks,
+  while the workspace owns platform aliases. Activation is not a substitute for
+  TypeScript checking.
 - Keep the nine agent principles synchronized with `zen/AGENTS.md` and the
   source-workspace root. Carry their scope discipline into `workspace.md` so
   sandbox agents receive it before selecting a package or skill.

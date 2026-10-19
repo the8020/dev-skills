@@ -17,8 +17,8 @@ owning package contract and current source give the exact API and checks.
   and preserve other developers' work.
 - A package's `package.toml` describes it; `programs/`, `services/`, `tables/`,
   `hooks/`, and `events/` declare its capabilities. Inspect a nearby working
-  example before creating one. `deno.json` owns runtime imports and tasks;
-  `deno.local.json` resolves sibling sources for local checks.
+  example before creating one. Package `deno.json` files own dependencies and
+  tasks; `/workspace/deno.json` supplies shared platform imports.
 - Cross-package imports use `/p/<namespace>/<package>/<file>.ts`. The running
   Worker resolves `/p/` to the activated package tree. `@the8020/kernel` and
   `@the8020/context` are generic runtime APIs. HTTP helpers live in
@@ -65,9 +65,12 @@ change, then the relevant consumer skill; do not load unrelated domain skills.
 
 1. Inspect each affected repository's status and applicable DOX. Make the change
    at its owner. Run its existing checks (usually `deno task check` and, when
-   defined, `deno task test`) and relevant browser/build tasks. Package tasks
-   may use sibling kernel sources unavailable in a deployed sandbox; report a
-   missing prerequisite rather than rewriting mappings to conceal it.
+   defined, `deno task test`) and relevant browser/build tasks. The sandbox
+   supplies the runtime SDK read-only at `/opt/runtime` and the shared Deno
+   workspace at `/workspace/deno.json`. Ordinary tasks inherit platform imports
+   while retaining package dependencies; no import-map override is needed. For
+   ad hoc checks, run `deno check <files>`. Activation validates schema and runs
+   hooks; it does not guarantee a full TypeScript check.
 2. Update the nearest owning DOX when behavior or contracts change. Inspect the
    actual diff, then preview from the sandbox:
 

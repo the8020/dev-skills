@@ -195,7 +195,9 @@ not authorize extra requirements.
 - The public repository is `https://github.com/the8020/dev-skills`. `README.md`
   owns installation and contributor orientation; `.gitignore` excludes secrets,
   personal agent data, local tools, and generated artifacts from publication.
-- `8020-dev/SKILL.md` owns platform orientation, domain routing, activation, and
+- `8020-dev/SKILL.md` owns platform orientation, domain routing, the
+  authorization guide (naming, declarations, enforcement, unaudited list
+  queries, attributes, declared roles, tile visibility, audit), activation, and
   live verification. The `the8020-dev-*` skills own types, database, programs
   and jobs, services, and UUI guidance; exact APIs remain in their owning
   packages.

@@ -25,6 +25,10 @@ domain definitions belong to the package that owns their meaning.
   metadata)` returns an independent schema; customizing a use
   must not mutate the owner. Supply useful `label` and Markdown `description`,
   with `valueHelp` and `open` callbacks for entity references when applicable.
+- A field holding several values is an array of scalars (`z.array(roleName)`),
+  or text with `multiple: { separator: ",", escape? }` when its values share one
+  string with its own grammar. Forms show them as tags and value help selects
+  several by key; do not invent a separated format for new data.
 - Structures are ordinary `z.object()` schemas. Compose through `.shape`,
   `.pick()`, `.extend()`, and `.array()`, and derive TypeScript types with
   `z.infer`. Reuse the actual schemas across layers, not just matching TS

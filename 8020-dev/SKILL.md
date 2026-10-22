@@ -74,7 +74,11 @@ has the exact matching rules.
   ```toml
   "deep.dlis.einvoice.view" = "View e-invoices; value is the invoice's channel."
   "deep.dlis.einvoice.approve" = { description = "Approve e-invoices; value is the channel.", audit = true }
+  "deep.dlis.settings.edit" = { description = "Change DLIS settings; value is empty.", value = false }
   ```
+
+  Mark actions checked with `""` as `value = false`; the role editor then grants
+  them as a whole instead of asking for values.
 
   Role editors offer declarations as value help, Home requires them for
   `[visible]`, and audit flags come only from them, so never skip one.

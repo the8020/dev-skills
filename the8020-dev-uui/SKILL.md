@@ -37,6 +37,11 @@ Read the affected package's program DOX and
 
 ## UI Rules
 
+- Ask yes/no questions with `confirmAction` from `/p/the8020/uui/mod.ts`: a
+  short title (`Delete role`), the consequence as `message`, and a confirm label
+  that names the action. Do not build ad hoc confirmation screens; a dialog with
+  extra fields sets `class: CONFIRM_CLASS` for the same look.
+
 - Do not add explanatory helper copy that restates what the control already
   implies (e.g. "optional", "works without selection", "failure falls back to
   X"). Prefer clear labels and option text; surface status in results when

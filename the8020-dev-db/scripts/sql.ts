@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-env=DEVELOPMENT_ACTIVATION_ENDPOINT,DEVELOPMENT_ACTIVATION_TOKEN,DEVELOPMENT_USER_ID --allow-net
+#!/usr/bin/env -S deno run --no-config --allow-env=DEVELOPMENT_ACTIVATION_ENDPOINT,DEVELOPMENT_ACTIVATION_TOKEN,DEVELOPMENT_USER_ID --allow-net
 
 async function main() {
   let statement: string | undefined;

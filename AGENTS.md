@@ -226,6 +226,9 @@ not authorize extra requirements.
   discovery, executable examples and unavailable/expired guidance; ordinary
   package activation and existing discovery install this extension.
 
+- Standalone SQL, log and UUI CLI scripts use only platform primitives, with no
+  workspace imports. Their launchers (and executable shebangs) use `--no-config`
+  without changing permissions; ordinary package checks still use the workspace.
 - The activated package is mounted read-only at `/workspace/skills/builtin`.
   Edit shipped guidance in `/workspace/packages/the8020/dev-skills` and publish
   through ordinary package activation. Kernel installation never copies skills.

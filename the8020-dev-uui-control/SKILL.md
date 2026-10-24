@@ -7,9 +7,10 @@ description: Explore and operate real 80|20 UUI screens from a development sandb
 
 Use `uui` in the sandbox. Its script is
 `/workspace/skills/builtin/the8020-dev-uui-control/scripts/uui.ts` and can also
-be run with `deno run -A`. No browser, password, or background process is
-needed. It signs in as the sandbox owner using the native sandbox endpoint and
-an ordinary users allowance, kept in a private file. Never print credentials.
+be run with `deno run --no-config -A`. No browser, password, or background
+process is needed. It signs in as the sandbox owner using the native sandbox
+endpoint and an ordinary users allowance, kept in a private file. Never print
+credentials.
 
 ```sh
 uui new the8020/demo/demo-form

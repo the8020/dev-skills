@@ -217,6 +217,15 @@ not authorize extra requirements.
 
 ## Local Contracts
 
+- `8020-dev/scripts/kernel-logs.ts` implements the `kernel-logs` helper using
+  the existing sandbox endpoint/owner/bearer secret. It sends one JSON query,
+  never follows redirects or retries, has a 35-second deadline, and prints the
+  native `{node_id,page}` unchanged. Native ingress pins the host node and owns
+  limits, literal text search, retention and cursors. No credentials or new
+  session state are stored. `8020-dev/SKILL.md` and `workspace.md` provide
+  discovery, executable examples and unavailable/expired guidance; ordinary
+  package activation and existing discovery install this extension.
+
 - The activated package is mounted read-only at `/workspace/skills/builtin`.
   Edit shipped guidance in `/workspace/packages/the8020/dev-skills` and publish
   through ordinary package activation. Kernel installation never copies skills.
@@ -292,12 +301,16 @@ not authorize extra requirements.
   execution to Chromium. Its session tests cover command validation and fallback
   bindings. No duplicate UI protocol implementation belongs in this package.
 
-- `deno task check` checks formatting, shell syntax, and both CLI scripts;
-  native SQL adapter tests in the kernel execute the shipped SQL script against
-  a real disposable SQLite database, including writes, bounds, and failures.
-  `deno task test` checks discovery, custom precedence, concurrent refresh, and
-  preservation of native user data with isolated homes, without agent
-  installation, login, or model requests.
+- `deno task check` checks formatting, shell syntax, and all three CLI scripts;
+  admin-core's native diagnostics browser fixture executes the installed log
+  helper and Deno paging example in an ordinary sandbox, checking host identity,
+  filters, continuation, bad tokens and foreign-node rejection. The skill uses
+  the image's Deno, with no Python dependency. Native SQL adapter tests in the
+  kernel execute the shipped SQL script against a real disposable SQLite
+  database, including writes, bounds, and failures. `deno task test` checks
+  discovery, custom precedence, concurrent refresh, and preservation of native
+  user data with isolated homes, without agent installation, login, or model
+  requests.
 - Kernel development tests verify actual read-only and persistent mounts,
   publication, per-user isolation, and lifecycle persistence.
 - Validate authored skills with skill-creator's `quick_validate.py` when

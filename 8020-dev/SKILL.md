@@ -1,6 +1,6 @@
 ---
 name: 8020-dev
-description: Develop, fix, review, and test 80|20 packages inside a development sandbox. Always use for development under /workspace/packages; explains package ownership, routes to domain skills, publishes through activate, and verifies live kernel services.
+description: Develop, fix, review, and test 80|20 packages inside a development sandbox. Always use for development under /workspace/packages; explains package ownership, routes to domain skills, publishes through activate, verifies live kernel services, and reads host-node kernel logs.
 ---
 
 # Develop in 80|20
@@ -42,6 +42,47 @@ owning package contract and current source give the exact API and checks.
   with their supplied mocks, or exercise real behavior through a service or
   ordinary program running on the kernel. For direct SQL, use the authenticated
   `sql` helper described in [the8020-dev-db](../the8020-dev-db/SKILL.md).
+
+## Read the sandbox host's kernel logs
+
+Use `kernel-logs` in an ordinary sandbox shell. It uses the existing sandbox
+bearer authority at the private host endpoint, not the public system URL or a
+Worker bridge. It returns `{node_id,page}`; check `node_id` to confirm the host.
+A different `node_id` query is rejected. No host paths or admin credentials are
+needed. Logs can contain sensitive application data; keep exports private.
+
+```sh
+# Recent host-kernel errors (bounded window).
+kernel-logs '{"source":"kernel","level":"error","tail":true,"limit":100}'
+# Search retained messages/attributes; source may also be deno or logd.
+kernel-logs '{"text":"connection","from":"2026-10-24T00:00:00Z","until":"2026-10-25T00:00:00Z","source":"kernel","limit":100}'
+# Continue the same filters. Do not repeat tail or position with a cursor.
+kernel-logs '{"text":"connection","source":"kernel","limit":100}' > /tmp/kernel-page.json
+query=$(deno eval 'const {page}=JSON.parse(Deno.readTextFileSync("/tmp/kernel-page.json")); if(page.state!=="ok") throw new Error(page.reason); console.log(JSON.stringify({text:"connection",source:"kernel",limit:100,cursor:page.cursor}));')
+kernel-logs "$query"
+# Print readable multiline messages from the saved page.
+deno eval 'const {node_id,page}=JSON.parse(Deno.readTextFileSync("/tmp/kernel-page.json")); console.log(node_id); for(const r of page.records) console.log(r.time,r.level,r.message);'
+```
+
+`text` is a case-sensitive literal match in message and attribute keys/values
+(maximum 1024 bytes). Filters also include exact `sandbox_id`, `worker_id`,
+`context_id`, `parent_context_id`, `job_id`, `service_id`, `persistent_id`,
+`object` (for example `service:the8020/uui/session`), and `username`. Times are
+RFC3339, from inclusive and until exclusive. Default page size is 100, maximum
+500 records and 256 KiB. A scan may return no matching records with `more:true`;
+continue using its cursor. Never change filters on a continuation.
+
+`tail_limited` means older records lie outside the recent window; start again
+without `tail` to search retained history. `expired` means retention removed the
+cursor's files: restart without the cursor. `unavailable` means the host logger
+or required files cannot be read; inspect the reason and retry explicitly. A
+cursor at `more:false` can be polled again for new records. No command follows
+forever or fetches all pages. Saved/copied JSON contains only the returned page.
+
+The installed helper delegates to `8020-dev/scripts/kernel-logs.ts` in the
+activated dev-skills package. A missing helper or HTTP 404 requires the matching
+kernel update and a normal sandbox restart; source edits alone do not install
+native ingress. Do not work around it with privileged mounts or shared URLs.
 
 ## Route to the needed skill
 

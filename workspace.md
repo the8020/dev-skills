@@ -58,6 +58,13 @@ activated application in separate service and job Workers.
   live database; writes take effect immediately, independently of activation.
   `--execute` selects non-row-returning SQL, not write permission.
 
+## Host kernel logs
+
+Run `kernel-logs` for one recent page from this sandbox’s hosting node. The
+`8020-dev` skill documents text/time/source filters, node identity, continuation
+and retention states. It uses the existing sandbox token privately; ordinary
+shell Deno still has no Worker bridge.
+
 ## Host 80|20 system URL
 
 `DEVELOPMENT_SYSTEM_URL` is the host node's HTTP base URL as reachable from this

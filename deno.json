@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "check": "deno fmt --check . && bash -n setup-agent-skills.sh && bash -n test.sh && deno lint the8020-dev-uui-control/scripts/uui.ts the8020-dev-db/scripts/sql.ts && deno check the8020-dev-uui-control/scripts/uui.ts the8020-dev-db/scripts/sql.ts",
+    "check": "deno fmt --check . && bash -n setup-agent-skills.sh && bash -n test.sh && deno lint the8020-dev-uui-control/scripts/uui.ts the8020-dev-db/scripts/sql.ts 8020-dev/scripts/kernel-logs.ts && deno check the8020-dev-uui-control/scripts/uui.ts the8020-dev-db/scripts/sql.ts 8020-dev/scripts/kernel-logs.ts",
     "test": "bash test.sh"
   }
 }

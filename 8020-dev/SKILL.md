@@ -103,6 +103,47 @@ package administration, or another domain, start with its owning package's
 `AGENTS.md`. Load the types skill when shared definitions change, then the
 relevant consumer skill; do not load unrelated domain skills.
 
+## Internationalization and user-facing messages
+
+All authored user-facing text belongs in the owning package's
+`i18n/locales/<language>.json` catalogs. Do not hardcode it in TypeScript, HTML,
+browser components, or JSON layouts. This applies to UUI labels, help, buttons,
+dialogs, loading/empty states, validation, notifications, and messages that
+programs or services propagate to users.
+
+- Keep English source text in `en.json` with stable flat keys. Preserve complete
+  sentences and use named `{variables}` instead of concatenating translated
+  fragments. Update the package's supported translations when text changes;
+  first-party `the8020/` catalogs must cover every English key in all languages
+  listed in `/p/the8020/i18n/languages.ts` (`--complete=builtin`).
+- Reuse the package's message helper, or bind `messages` from
+  `/p/the8020/i18n/messages.ts` to its full package ID. Shared Zod fields and
+  UUI declarations use deferred references such as `m("actions.save")`. UUI
+  prepares them for the session; never rebuild schemas or change Zod's global
+  locale.
+- For string-only APIs and emitted messages, prepare
+  `await translations("namespace/package")` from `/p/the8020/i18n/mod.ts` once
+  within the invocation, then use its synchronous formatter. Resolve text in the
+  recipient's language before sending it; pass message references and variables
+  through internal layers that still need to choose that language.
+- Browser components receive prepared translations through their existing
+  config/boot data. Initial HTML, including loading text, must already be
+  localized before JavaScript starts. Keep catalog/database reads out of render
+  loops. Preserve identifiers, machine error codes, user data, and diagnostic
+  logs; translate the prose that presents them to users.
+- Run the package's `check:i18n` task, or
+  `deno run --allow-read /p/the8020/i18n/check.ts .`, and exercise the affected
+  user flow in another language. The checker validates catalogs, not source
+  literals: review changed UI and message paths for hardcoded text as well.
+  Review its advisory length warnings for buttons, headings, and status labels;
+  prefer concise natural wording without losing meaning. For the full report,
+  run the checker with `--length-report=/tmp/i18n-length-report.json` and
+  `--allow-write=/tmp/i18n-length-report.json` before the script path.
+
+Read `/workspace/packages/the8020/i18n/AGENTS.md` for the current catalog,
+fallback, and customer-override contracts. The types and services skills cover
+their respective integration details.
+
 ## Authorization
 
 Application authorization is opt-in and owned by `the8020/auth`; its `AGENTS.md`

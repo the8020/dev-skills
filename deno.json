@@ -2,6 +2,6 @@
   "tasks": {
     "check": "deno fmt --check . && bash -n setup-agent-skills.sh && bash -n test.sh && deno lint the8020-dev-uui-control/scripts/uui.ts the8020-dev-db/scripts/sql.ts 8020-dev/scripts/kernel-logs.ts && deno check the8020-dev-uui-control/scripts/uui.ts the8020-dev-db/scripts/sql.ts 8020-dev/scripts/kernel-logs.ts && deno task check:i18n",
     "test": "bash test.sh",
-    "check:i18n": "deno run --allow-read ../i18n/check.ts --complete=cs ."
+    "check:i18n": "deno run --allow-read ../i18n/check.ts --complete=builtin ."
   }
 }

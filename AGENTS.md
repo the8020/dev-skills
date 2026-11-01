@@ -112,7 +112,8 @@ relevant child AGENTS.md
 
 ## Child DOX Index
 
-- [i18n/AGENTS.md](i18n/AGENTS.md): English and Czech presentation catalogs.
+- [i18n/AGENTS.md](i18n/AGENTS.md): Complete built-in-language presentation
+  catalogs.
 
 This package root owns all shipped skills and discovery outside the catalog
 child.
@@ -280,8 +281,10 @@ not authorize extra requirements.
 
 ## Work Guidance
 
-- Types and service guidance explain package catalogs, deferred field messages,
-  per-request language and the i18n checker. Keep examples at the i18n owner.
+- The main `8020-dev` skill requires package catalogs for all authored
+  user-facing text, including UUI and messages propagated by programs/services.
+  Types and service guidance explain deferred fields and request localization;
+  exact APIs and catalog policy remain at the i18n owner.
 
 - Before pushing, inspect the exact staged files for secrets and unintended
   artifacts. Keep release tags numeric (`major.minor.patch`) so the kernel

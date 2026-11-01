@@ -84,3 +84,14 @@ Run the owner's checks and affected consumer checks; verify the relevant
 validation, stored/returned value, label/help, and selection behavior. Fix lost
 metadata or conversion defects at the shared owner instead of copying metadata
 or adding coercions in each consumer.
+
+## Translations
+
+Keep English source text in `i18n/locales/en.json` as
+`{"name":"English","texts":{"fields.name":"Name"}}`. Import `messages` from
+`/p/the8020/i18n/messages.ts`, bind it once to the full package ID, and use
+`m("fields.name")` in shared field labels/help. UUI prepares these references
+once per screen; never rebuild schemas or set Zod's global locale for a user.
+Use named `{variables}` and keep other languages partial when needed. Check
+catalogs with `deno run --allow-read /p/the8020/i18n/check.ts .`. The i18n owner
+DOX documents customer overrides and per-language fallbacks.

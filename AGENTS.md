@@ -112,7 +112,10 @@ relevant child AGENTS.md
 
 ## Child DOX Index
 
-No child DOX documents. This package root owns all shipped skills and discovery.
+- [i18n/AGENTS.md](i18n/AGENTS.md): English and Czech presentation catalogs.
+
+This package root owns all shipped skills and discovery outside the catalog
+child.
 
 # Zen for agents
 
@@ -276,6 +279,9 @@ not authorize extra requirements.
   general shell Worker bridge and introduces no credentials or session store.
 
 ## Work Guidance
+
+- Types and service guidance explain package catalogs, deferred field messages,
+  per-request language and the i18n checker. Keep examples at the i18n owner.
 
 - Before pushing, inspect the exact staged files for secrets and unintended
   artifacts. Keep release tags numeric (`major.minor.patch`) so the kernel

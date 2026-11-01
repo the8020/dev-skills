@@ -47,3 +47,13 @@ enabled, its handler loaded, its authentication succeeded, or new code ran.
 - `services.openapi <service-id>` explicitly imports the selected service in an
   ordinary program Worker. Keep module initialization suitable for inspection;
   documentation errors do not prevent native startup or request handling.
+
+## Translations
+
+The service boundary selects `context.language` from `the8020-language`, the
+effective account preference, or the system default. Public services use their
+configured execution account. The header only selects an enabled language; it
+never selects identity. Prepare `await translations("namespace/package")` from
+`/p/the8020/i18n/mod.ts` once per request and use the returned synchronous
+formatter. Keep English in `i18n/locales/en.json` and use named `{variables}`.
+Zod validation uses the request's per-parse translator without global mutation.

@@ -235,8 +235,11 @@ has the exact matching rules.
   Package indexing creates and updates them; they are read-only in the editor
   (copy one to customize it, then review and adopt template changes). Removed
   roles still in use become obsolete. Platform roles are
-  `the8020.users.administrator` (`*` → `*`, given to the bootstrap user) and
-  `the8020.users.user` (a collection for application roles).
+  `the8020.users.administrator` (`*` → `*`, given to the bootstrap user),
+  `the8020.users.user` (a collection for application roles) and
+  `the8020.https.viewer` (read-only HTTPS settings and certificates). Include a
+  platform viewer role in an application role instead of copying its `the8020.*`
+  actions.
 - **Home tiles**: `widgets/<name>.toml` may set
   `[visible] permission =
   "<declared action>"`; only users granted it for some
